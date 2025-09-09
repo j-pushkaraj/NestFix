@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Verification - NestFix Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f7f9;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        h1 {
+            color: #295f2d;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+
+        .table {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table-dark {
+            background-color: #295f2d;
+            color: #fff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9f5ec;
+        }
+
+        .btn-primary {
+            background-color: #295f2d;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #214e24;
+        }
+
+        .btn-success {
+            background-color: #2d8f2f;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-success:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-danger {
+            background-color: #d9534f;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-danger:hover {
+            transform: scale(1.05);
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background-color: #295f2d;
+            color: #fff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-body {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Document Verification</h1>
+
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Service Type</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for professional in professionals %}
+                <tr>
+                    <td>{{ professional.id }}</td>
+                    <td>{{ professional.name }}</td>
+                    <td>{{ professional.skills }}</td>
+                    <td>{{ professional.status }}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#verifyModal{{ professional.id }}">View Documents</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Document Verification Modal -->
+        {% for professional in professionals %}
+        <div class="modal fade" id="verifyModal{{ professional.id }}" tabindex="-1" aria-labelledby="verifyModalLabel{{ professional.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="verifyModalLabel{{ professional.id }}">Verify Documents for {{ professional.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Service Professional:</strong> {{ professional.name }}</p>
+                        <p><strong>Service Type:</strong> {{ professional.skills }}</p>
+                        <div class="document-preview mt-3">
+                            <p><strong>Document:</strong> ID Proof ({{ professional.document_filename.split('.')[-1].upper() }})</p>
+                            <img src="{{ url_for('static', filename='uploads/' + professional.document_filename) }}" alt="ID Proof" class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <form action="{{ url_for('reject_professional', id=professional.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to reject this professional?');">Reject</button>
+                        </form>
+                        <form action="{{ url_for('approve_professional', id=professional.id) }}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to approve this professional?');">Approve</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nestfix - Home Services</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS CSS for animations -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    /* Custom CSS */
+    body {
+      font-family: Arial, sans-serif;
+      scroll-behavior: smooth; /* Smooth scrolling */
+    }
+    .hero-section {
+      background: url('{{ url_for("static", filename="images/hero-bg.jpg") }}') no-repeat center center;
+      background-size: cover;
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .cta-button a {
+      margin-top: 20px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+    }
+    .cta-button a:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-custom {
+      background-color: #343a40;
+      transition: background-color 0.3s ease;
+    }
+    .navbar-custom.scrolled {
+      background-color: #000000;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px;
+      text-align: center;
+    }
+    .info-section {
+      padding: 60px 20px;
+      background-color: #f8f9fa;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideIn 2s forwards;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('index') }}">Nestfix</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#info">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container" data-aos="fade-up">
+      <h1>Welcome to Nestfix</h1>
+      <p>Your trusted partner for all household services</p>
+      <div class="cta-button">
+        <a href="#info" class="btn btn-light btn-lg">Learn More</a>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Sign Up</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Information Section (About Nestfix) -->
+  <section id="info" class="info-section" data-aos="fade-up">
+    <div class="container">
+      <h2 class="text-center">About Nestfix</h2>
+      <p class="info-text">
+        Nestfix is your one-stop solution for all home maintenance and repair services.
+        From plumbing to electrical repairs, AC servicing to general home maintenance, 
+        we provide professional services to keep your home in top condition.
+        Our team of certified experts is dedicated to offering the best services at affordable prices.
+      </p>
+      <div class="text-center">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Sign Up Now</a>
+        <a href="{{ url_for('hire') }}" class="btn btn-secondary btn-lg">Hire Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5">
+    <div class="container">
+      <h2 class="text-center">Our Services</h2>
+      <div class="row mt-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/plumbing.jpg') }}" class="card-img-top" alt="Plumbing">
+            <div class="card-body">
+              <h5 class="card-title">Plumbing</h5>
+              <p class="card-text">Expert plumbing services to fix all your leaks and installations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/electrical.jpg') }}" class="card-img-top" alt="Electrical">
+            <div class="card-body">
+              <h5 class="card-title">Electrical</h5>
+              <p class="card-text">Skilled electricians to handle wiring, repairs, and installations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="card">
+            <img src="{{ url_for('static', filename='images/ac.jpg') }}" class="card-img-top" alt="AC Service">
+            <div class="card-body">
+              <h5 class="card-title">AC Servicing</h5>
+              <p class="card-text">Professional air conditioning maintenance and repair.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2024 Nestfix. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- AOS JS for animations -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init(); // Initialize AOS library
+    // Change navbar color on scroll
+    window.addEventListener('scroll', function() {
+      var navbar = document.querySelector('.navbar-custom');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+  </script>
+</body>
+</html>
